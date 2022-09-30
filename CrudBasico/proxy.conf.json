@@ -1,0 +1,9 @@
+/*  si se encuatra en la direccoin api/algo; haga lo siguiente ;
+Además se llama desde package json*/
+{
+    "/api/*":{
+        "target":"http://localhost:3000/",
+        "segure":"false",
+        "logLevel": "debug"
+    }
+}
