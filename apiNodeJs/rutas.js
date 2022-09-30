@@ -54,7 +54,7 @@ router.post('/', (req, res)=>{
     })
 })
 
-// para eliminar 
+// para eliminar se necesita el id
 router.delete('/:id',(req, res)=>{
     const{id} = req.params
 
@@ -67,8 +67,27 @@ router.delete('/:id',(req, res)=>{
             }
         }
     })
-})
+}) 
 
+// para modificar 
+router.put('/:id',(req, res)=>{
+    const{id} = req.params // esto se envia por la url
+    const{nombre, logo} = req.body // esto se envia por el formulario campos
+
+    let sql = `update tb_equipo set`+
+               ` nombre = '${nombre}',`+
+               ` logo = '${logo}'`+
+               ` where id_equipo = '${id}'`
+
+    conexion.query(sql,(err, rows, fields) =>{
+        {
+            if(err) throw err;
+            else{
+                res.json({status: 'equipo editado; o actualizado'})
+            }
+        }
+    })            
+});
 
 //se exporta la ruta creada y se hace el llamado desde index.js
 //module.exports = rutas;
