@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 //se importa el servicio desde de la conexion
-import {EquipoService} from '../../services/equipo.service'
+import {EquipoService, Equipo} from '../../services/equipo.service';
+//para cambiar de rutas ademasse debe inicializar
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -9,7 +11,10 @@ import {EquipoService} from '../../services/equipo.service'
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private EquipoService:EquipoService) { }
+  //variables
+  ListarEquipo!: Equipo[];
+
+  constructor(private EquipoService:EquipoService, private router:Router) { }
 
   ngOnInit(): void {
     this.listarEquipo();
@@ -18,9 +23,22 @@ export class InicioComponent implements OnInit {
   listarEquipo(){
     this.EquipoService.getEquipos().subscribe(
       res=>{
-        console.log(res)
+        console.log(res);
+        this.ListarEquipo=<any>res;
       },
       err => console.log(err)
     )
+  }
+
+  eliminar(id:string){
+    this.EquipoService.deleteEquipo(id.toString()).subscribe(res=>{
+      console.log('equipo eliminado');
+      this.listarEquipo();
+    },
+    err=> console.log(err));
+  }
+
+  modificar(id:string){
+    this.router.navigate(['/edit/'+id]);
   }
 }
