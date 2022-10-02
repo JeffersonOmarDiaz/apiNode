@@ -9,7 +9,8 @@ const routes: Routes = [
   { path:'', redirectTo:'/inicio', pathMatch:'full'},
   { path:'inicio', component: InicioComponent},
   { path:'add', component: AgregarComponent},
-  { path:'edit', component: ModificarComponent},
+  //cuando se pasa un id para modificar debe de ser de esta forma /:id
+  { path:'edit/:id', component: ModificarComponent},
 ];
 
 @NgModule({

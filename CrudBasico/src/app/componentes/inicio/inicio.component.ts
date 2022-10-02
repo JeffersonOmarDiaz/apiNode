@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 //se importa el servicio desde de la conexion
 import {EquipoService, Equipo} from '../../services/equipo.service';
-//para cambiar de rutas ademasse debe inicializar
-import {Router} from '@angular/router';
+//para cambiar de rutas ademasse debe inicializar, con activate route se puede recuperar el id que enviamos
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -14,7 +14,9 @@ export class InicioComponent implements OnInit {
   //variables
   ListarEquipo!: Equipo[];
 
-  constructor(private EquipoService:EquipoService, private router:Router) { }
+  constructor(
+              private EquipoService:EquipoService, 
+              private router:Router) { }
 
   ngOnInit(): void {
     this.listarEquipo();
@@ -25,6 +27,9 @@ export class InicioComponent implements OnInit {
       res=>{
         console.log(res);
         this.ListarEquipo=<any>res;
+        /* const moneyDatas = Object.entries(res).map(i => i[1]);
+        console.log(moneyDatas);
+        this.ListarEquipo = moneyDatas[0]; */
       },
       err => console.log(err)
     )
@@ -36,6 +41,7 @@ export class InicioComponent implements OnInit {
       this.listarEquipo();
     },
     err=> console.log(err));
+    //console.log("Ocurrion un error de compilacion en BD");
   }
 
   modificar(id:string){

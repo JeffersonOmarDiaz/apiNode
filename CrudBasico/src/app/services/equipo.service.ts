@@ -39,7 +39,7 @@ editEquipo(id: string, equipo:Equipo){
 
 // las intefaces admiten los tipos dedATOS QUE recibe el formulario y validamos
 export interface Equipo{
-  id_equipo?:string;
+  id_equipo:string;
   nombre?:string;
   logo?:string;
 }
