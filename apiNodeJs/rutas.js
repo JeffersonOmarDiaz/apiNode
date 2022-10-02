@@ -14,16 +14,29 @@ const conexion = require('./config/conexion')
 router.get('/',(req, res)=>{
     let sql = 'select * from tb_equipo'
     //en este caso se obtienen 3 respuestas 1 error
-    conexion.query(sql,(err, rows, fields) =>{
+    conexion.query(`CALL sp_B_getAllEquipos()`,(err, rows, fields) =>{
+    /* conexion.query(sql,(err, rows, fields) =>{ */
         {
             if(err) throw err;
             else{
-                res.json(rows)
+                res.json(rows[0])
             }
         }
     })
 } )
 
+/* let sql = `CALL sp_B_getAllEquipos()`;
+
+conexion.query(sql, true, (error, results, fields) => {
+  if (error) {
+    return console.error(error.message);
+  }
+  console.log(results[0]);
+});
+
+connection.end(); */
+
+//********************************** */
 //get un equipo}
 // se traera por el ide del equipo es importante que llegue con el id 
 router.get('/:id',(req, res)=>{
@@ -37,7 +50,8 @@ router.get('/:id',(req, res)=>{
                 res.json(rows)
             }
         }
-    })
+    });
+    //conexion.end();
 } )
 
 // agregar elemento por metodo post
