@@ -9,7 +9,8 @@ import { ModificarComponent } from './componentes/modificar/modificar.component'
 
 //importaciones necesarias
 import {HttpClientModule} from '@angular/common/http'
-import {FormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MapaComponent } from './componentes/mapa/mapa.component'
 // no olvidar generar el servicio parala conexion api
 
 @NgModule({
@@ -17,13 +18,15 @@ import {FormsModule} from '@angular/forms'
     AppComponent,
     AgregarComponent,
     InicioComponent,
-    ModificarComponent
+    ModificarComponent,
+    MapaComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

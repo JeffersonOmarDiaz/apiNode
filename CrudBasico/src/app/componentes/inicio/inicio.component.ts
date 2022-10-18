@@ -39,7 +39,7 @@ export class InicioComponent implements OnInit {
     this.EquipoService.deleteEquipo(id.toString()).subscribe(res=>{
       console.log('equipo eliminado');
       this.listarEquipo();
-    },
+    }, 
     err=> console.log(err));
     //console.log("Ocurrion un error de compilacion en BD");
   }
