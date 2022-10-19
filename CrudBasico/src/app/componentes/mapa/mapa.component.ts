@@ -114,6 +114,7 @@ export class MapaComponent implements OnInit {
 
       marker.setMap(this.mapa);
       this.llenarFormulario(place);
+      console.log("Lo que contiene el place es: "+place.geometry.location);
     })
   }
 
