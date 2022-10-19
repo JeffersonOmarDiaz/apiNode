@@ -2,6 +2,16 @@
 <button (click)="mapRuta()">Calcular ruta</button>
 <h1>La distancia es: {{distancia}}</h1>
 
+<div>
+  <p-dropdown [options]="myData" optionLabel="text" optionValue="value" [showClear]="true" >
+    <!-- <ng-template #itemTemp let-item>
+      <div class="md-country-picker-item">
+          <img class="md-country-picker-flag" [src]="'https://img.mobiscroll.com/demos/flags/' + item.data.value + '.png'" />
+          {{item.display}}
+      </div>
+  </ng-template> -->
+  </p-dropdown>
+</div>
 
 <div class="formulario">
     <form [formGroup]="formMapas" (ngSubmit)="onSubmit()">

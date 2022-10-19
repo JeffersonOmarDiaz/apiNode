@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms'
 import { ElementRef, ViewChild, Renderer2 } from '@angular/core'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mapa',
@@ -17,7 +18,8 @@ export class MapaComponent implements OnInit {
   markers: google.maps.Marker[];
   distancia!: string;
   formMapas!: FormGroup;
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2,
+              private http: HttpClient) {
     this.markers = [];
 
     this.formMapas = new FormGroup({
@@ -31,11 +33,21 @@ export class MapaComponent implements OnInit {
     })
   }
 
+  myData: any;
+
   ngOnInit(): void {
+    this.http.get('https://trial.mobiscroll.com/content/countries.json').subscribe((resp: any) => {
+            const countries = [];
+            for (let i = 0; i < resp.length; ++i) {
+                const country = resp[i];
+                countries.push({ text: country.text, value: country.value });
+            }
+            this.myData = countries;
+        });
   }
 
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
 
     const opciones = {
       enableHighAccuracy: true,
@@ -45,13 +57,13 @@ export class MapaComponent implements OnInit {
 
     if (navigator.geolocation) {
 
-      navigator.geolocation.getCurrentPosition(async (position) => {
+      //navigator.geolocation.getCurrentPosition(async (position) => {
 
-        await this.cargarMapa(position);
-        console.log("Posicion por entender: "+ Object.values(position));
+        await this.cargarMapa();
+        //console.log("Posicion por entender: "+ Object.values(position));
         this.cargarAutocomplete();
 
-      }, null, opciones);
+      //}, null, opciones);
 
 
     } else {
@@ -159,11 +171,13 @@ export class MapaComponent implements OnInit {
     this.formMapas.controls['direccion'].setValue(getAddressComp('route') + ' ' + getAddressComp('street_number'))
   };
 
-  cargarMapa(position: any): any {
+  cargarMapa(): any {
+const latitudDefault: Number = -97.0000000;
+const longitudDefault: Number = 38.0000000;
 
     const opciones = {
-      center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-      zoom: 17,
+      center: new google.maps.LatLng(33.792305, -87.598531),
+      zoom: 5,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 

@@ -12,6 +12,12 @@ import {HttpClientModule} from '@angular/common/http'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MapaComponent } from './componentes/mapa/mapa.component'
 // no olvidar generar el servicio parala conexion api
+// para la seleccion de paises 
+import { MatSelectCountryModule } from "@angular-material-extensions/select-country";
+import {DropdownModule} from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
+
 
 @NgModule({
   declarations: [
@@ -26,7 +32,11 @@ import { MapaComponent } from './componentes/mapa/mapa.component'
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule ,
+    MatSelectCountryModule.forRoot('en'), // you can use 'br' | 'de' | 'en' | 'es' | 'fr' | 'hr' | 'it' | 'nl' | 'pt' --> MatSelectCountrySupportedLanguages
+    DropdownModule,
+    BrowserAnimationsModule,   //Ngprime
+    AccordionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
