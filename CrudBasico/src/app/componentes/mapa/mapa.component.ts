@@ -29,7 +29,9 @@ export class MapaComponent implements OnInit {
       referencia: new FormControl(''),
       ciudad: new FormControl(''),
       provincia: new FormControl(''),
-      region: new FormControl('')
+      region: new FormControl(''),
+      codeZip: new FormControl(''),
+      country:new FormControl(''),
     })
   }
 
@@ -133,13 +135,14 @@ export class MapaComponent implements OnInit {
   llenarFormulario(place: any) {
 
     const addressNameFormat: any = {
-      'street_number': 'short_name',
       'route': 'long_name',
-      'administrative_area_level_1': 'short_name',
+      'street_number': 'short_name',
+      'sublocality_level_1': 'long_name',
+      'administrative_area_level_1': 'long_name',
       'administrative_area_level_2': 'short_name',
       'administrative_area_level_3': 'short_name',
       'country': 'long_name',
-
+      'postal_code':  'long_name'
     };
 
     const getAddressComp = (type: any) => {
@@ -154,9 +157,11 @@ export class MapaComponent implements OnInit {
 
     const componentForm = {
       direccion: 'location',
-      ciudad: "administrative_area_level_3",
+      ciudad: "sublocality_level_1",//"administrative_area_level_3",
       provincia: 'administrative_area_level_2',
-      region: 'administrative_area_level_1'
+      region: 'administrative_area_level_1',
+      codeZip: 'postal_code',
+      country: 'country'
     };
 
 
@@ -185,7 +190,7 @@ const longitudDefault: Number = 38.0000000;
 
     const markerPosition = new google.maps.Marker({
       position: this.mapa.getCenter(),
-      title: "David",
+      title: "Omar",
     });
 
     markerPosition.setMap(this.mapa);
