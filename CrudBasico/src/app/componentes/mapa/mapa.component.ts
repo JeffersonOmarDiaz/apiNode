@@ -1,6 +1,6 @@
 ///<reference path="../../../../node_modules/@types/googlemaps/index.d.ts"/>
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { ElementRef, ViewChild, Renderer2 } from '@angular/core'
 import { HttpClient } from '@angular/common/http';
 
@@ -18,24 +18,34 @@ export class MapaComponent implements OnInit {
   markers: google.maps.Marker[];
   distancia!: string;
   formMapas!: FormGroup;
+
+  /************* formulario propio */
+  formDinamico!: FormGroup;
   constructor(private renderer: Renderer2,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private fb:FormBuilder,
+              ) {
     this.markers = [];
 
     this.formMapas = new FormGroup({
 
-      busqueda: new FormControl(''),
-      direccion: new FormControl(''),
-      referencia: new FormControl(''),
+      search: new FormControl(''),
+      address_1: new FormControl(''),
+      address_2: new FormControl(''),
       ciudad: new FormControl(''),
-      provincia: new FormControl(''),
-      region: new FormControl(''),
+      county: new FormControl(''),
+      state: new FormControl(''),
       codeZip: new FormControl(''),
       country:new FormControl(''),
-    })
+    });
+
+    this.formDinamico = new FormGroup({
+      textoTest: new FormControl('')
+    }) 
   }
 
   myData: any;
+  busqueda: string="";
 
   ngOnInit(): void {
     this.http.get('https://trial.mobiscroll.com/content/countries.json').subscribe((resp: any) => {
@@ -45,6 +55,11 @@ export class MapaComponent implements OnInit {
                 countries.push({ text: country.text, value: country.value });
             }
             this.myData = countries;
+        });
+
+        /**/
+        this.formDinamico = this.fb.group({
+          labels: this.fb.array([])
         });
   }
 
@@ -74,8 +89,33 @@ export class MapaComponent implements OnInit {
 
   };
 
+  quantities() : FormArray {
+    return this.formDinamico.get("labels") as FormArray;
+   }
+
+   newQuantity(): FormGroup {
+    return this.fb.group({
+      textoTest: new FormControl('')
+    })
+  }
+  addQuantity() {
+    this.quantities().push(this.newQuantity());
+  }
+
+  removeQuantity(i:number) {
+    this.quantities().removeAt(i);
+    //this.arrayInterPhone=[];
+    //this.selectedPhoneType=[];
+
+  }
+
+  cambiaLado(valor:string) {
+    this.busqueda = valor;
+  }
+
   onSubmit() {
     console.log("Datos del formulario: ", this.formMapas.value)
+    console.log(this.busqueda)
   };
 
 
@@ -156,10 +196,10 @@ export class MapaComponent implements OnInit {
     };
 
     const componentForm = {
-      direccion: 'location',
+      address_1: 'location',
       ciudad: "sublocality_level_1",//"administrative_area_level_3",
-      provincia: 'administrative_area_level_2',
-      region: 'administrative_area_level_1',
+      county: 'administrative_area_level_2',
+      state: 'administrative_area_level_1',
       codeZip: 'postal_code',
       country: 'country'
     };
@@ -173,7 +213,7 @@ export class MapaComponent implements OnInit {
       this.formMapas.controls[key].setValue(getAddressComp(value))
     });
 
-    this.formMapas.controls['direccion'].setValue(getAddressComp('route') + ' ' + getAddressComp('street_number'))
+    this.formMapas.controls['address_1'].setValue(getAddressComp('route') + ' ' + getAddressComp('street_number'))
   };
 
   cargarMapa(): any {

@@ -16,7 +16,7 @@
 <div class="formulario">
     <form [formGroup]="formMapas" (ngSubmit)="onSubmit()">
   
-      <input type="text" #inputPlaces id="inputPlaces" formControlName="busqueda">
+      <input type="text" #inputPlaces id="inputPlaces" formControlName="search" autocomplete="on" [(ngModel)]="busqueda" (ngModelChange)="cambiaLado($event)" >
   
       <div class="form panel">
   
@@ -25,11 +25,11 @@
             alt="">
         </div>
   
-        <input type="text" placeholder="Direccion" formControlName="direccion" />
-        <input type="text" placeholder="Edificio, departamento, piso (opcional)" formControlName="referencia" />
+        <input type="text" placeholder="Address 1" formControlName="address_1"  />
+        <input type="text" placeholder="Address 2 (opcional)" formControlName="address_2" />
         <input type="text" placeholder="Ciudad" class="ciudad" formControlName="ciudad" />
-        <input type="text" placeholder="County" formControlName="provincia" />
-        <input type="text" class="half-input" placeholder="State" formControlName="region" />
+        <input type="text" placeholder="County" formControlName="county" />
+        <input type="text" class="half-input" placeholder="State" formControlName="state" />
         <input type="text" placeholder="Country" formControlName="country" />
         <div class="half-input-container">
           <input type="text" placeholder="Code Zip" formControlName="codeZip" />
@@ -39,6 +39,23 @@
       </div>
 
       <div class="mapa" #divMap></div>
-      
+    </form>
+
+    <form [formGroup]="formDinamico" >
+      <table class="table table-bordered" formArrayName="labels">
+        <tr>
+          <th colspan="1">Add Phone:</th>
+          <th  style="padding: 10px;"><button type="button"
+                  (click)="addQuantity()" class="btn btn-outline-secondary">Add
+                  More <i class="bi bi-plus-circle"></i></button></th>
+
+      </tr>
+      <tr *ngFor="let quantity of quantities().controls; let i=index" [formGroupName]="i">
+        <p class="form-group" >
+          <input type="text" formControlName="textoTest"> 
+        </p>
+        <td>
+        </td>
+      </table>
     </form>
   </div>
