@@ -19,6 +19,6 @@ app.use(express.json()); // para que reconosca ingreso de archivos tipo json
 //routes
 //app.use(languageRoutes);
 
-app.use("/crm_api/languages",languageRoutes);
+//app.use("/crm_api/languages",languageRoutes);
 app.use("/crm_api/contacts", contactRoutes);
 export default app;  
